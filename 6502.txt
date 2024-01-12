@@ -1,0 +1,267 @@
+6502 Instruction Set
+
+N: Negative bit
+V: Overflow bit
+Z: Zero bit
+C: Carry bit
+
+Load and Store Group
+
+Load Accumulator N,Z
+LDA $aaaa	$AD	3       LDAM
+LDA #$aa	$A9	2       LDAI
+
+Load X Register	N,Z
+LDX $aaaa	$AE	3       LDXM
+LDX #$aa	$A2	2	    LDXI
+
+Load Y Register	N,Z
+LDY $aaaa	$AC	3       LDYM
+LDY #$aa	$A0	2       LDYI
+
+Store Accumulator   STA $aaaa	$8D	3
+Store X Register	STX $aaaa	$8E	3
+Store Y Register	STY $aaaa	$8C	3
+
+Arithmetic Group
+Add with Carry [A = A + M + C] N,V,Z,C
+ADC $aaaa	$6D	3   ADCM
+ADC #$aa	$69	2   ADCI
+
+Subtract with Carry	[A = A - M - (~C)] N,V,Z,C
+SBC $aaaa	$ED	3   SBCM
+SBC #$aa	$E9	2	SBCI
+
+Increment and Decrement Group
+Increment a memory location	N,Z
+INC $aaaa	$EE	3   INCM
+INC A	    $1A	1   INCA
+
+Increment the X register	INX	$E8	1	N,Z
+Increment the Y register	INY	$C8	1	N,Z
+
+Decrement a memory location N,Z	
+DEC $aaaa	$CE	3   DECM
+DEC A	    $3A	1   DECA
+
+
+Decrement the X register	DEX	$CA	1	N,Z
+Decrement the Y register	DEY	$88	1	N,Z
+
+Register Transfer Group N,Z
+Transfer accumulator to X	TAX	$AA	1	
+Transfer accumulator to Y	TAY	$A8	1	
+Transfer X to accumulator	TXA	$8A	1	
+Transfer Y to accumulator	TYA	$98	1	
+
+Logical Group
+Logical AND	[A = A ^ M] N,Z
+AND $aaaa	$2D	3   ANDM
+AND #$aa	$29	2   ANDI
+
+Exclusive OR [A = A exor M] N,Z
+EOR $aaaa	$4D	3   EORM
+EOR #$aa	$49	2   EORI
+
+Logical OR [A = A v M] N,Z
+ORA $aaaa	$0D	3   ORAM
+ORA #$aa	$09	2	ORAI
+
+Compare Group
+Sets the ‘Z’ if equal
+‘C’ is set if M <= A
+‘C’ is reset if M > A
+
+Compare Accumulator N,Z,C
+CMP $aaaa	$CD	3   CMPM	
+CMP #$aa	$C9	2   CMPI	
+
+Compare X register N,Z,C	
+CPX $aaaa	$EC	3   CPXM	
+CPX #$aa	$E0	2   CPXI	
+
+Compare Y register N,Z,C	
+CPY $aaaa	$CC	3   CPYM
+CPY #$aa	$C0	2   CPYI
+
+
+Shift and Rotote Group
+The shifted bit is always stored in ‘C’
+Arithmetic Shift Left	[C ← /M7...M0/ ← 0] N,Z,C
+ASL $aaaa	$0E	3	ASLM
+ASL A	    $0A	1   ASLA
+
+Logical Shift Right	[0 → /M7...M0/ → C] N,Z,C
+LSR $aaaa	$4E	3   LSRM
+LSR A	    $4A	1   LSRA
+
+Rotate Left	[C ← /M7...M0/ ← C] N,Z,C
+ROL $aaaa	$2E	3   ROLM
+ROL A	    $2A	1   ROLA
+
+Rotate Right [C → /M7...M0/ → C] N,Z,C
+ROR $aaaa	$6E	3   RORM
+ROR A	    $6A	1   RORA
+
+
+Jump and Branch Group
+Jump to another location	    JMP $aaaa	$4C	3
+
+Operand in the branch instruction specifies the offset in bytes, that is added to the PC
+Branch if carry flag clear	    BCC #aa	$90	2	
+Branch if carry flag set	    BCS #aa	$B0	2	
+Branch if zero flag set	        BEQ #aa	$F0	2	
+Branch if zero flag clear	    BNE #aa	$D0	2	
+Branch if negative flag set	    BMI #aa	$30	2	
+Branch if negative flag clear	BPL #aa	$10	2	
+Branch if overflow flag clear	BVC #aa	$50	2	
+Branch if overflow flag set	    BVS #aa	$70	2	
+
+Status Flag Change Group
+Clear carry flag        CLC	$18	1	C
+Clear overflow flag	    CLV	$B8	1	V
+Set carry flag	        SEC	$38	1	C
+
+Subroutine and Interrupt Group
+JSR	Jump to a subroutine	JSR $aaaa	$20	3	
+RTS	Return from subroutine	RTS	        $60	1	
+
+Instruction set MNEMONICS
+
+MNEMONIC:Opcode:Total_Bytes
+LDAM:AD:3
+LDAI:A9:2
+LDXM:AE:3
+LDXI:A2:2
+LDYM:AC:3
+LDYI:A0:2
+STA:8D:3
+STX:8E:3
+STY:8C:3
+ADCM:6D:3
+ADCI:69:2
+SBCM:ED:3
+SBCI:E9:2
+INCM:EE:3
+INCA:1A:1
+INX:E8:1
+INY:C8:1
+DECM:CE:3
+DECA:3A:1
+DEX:CA:1
+DEY:88:1
+TAX:AA:1
+TAY:A8:1
+TXA:8A:1
+TYA:98:1
+ANDM:2D:3
+ANDI:29:2
+EORM:4D:3
+EORI:49:2
+ORAM:0D:3
+ORAI:09:2
+CMPM:CD:3
+CMPI:C9:2
+CPXM:EC:3
+CPXI:E0:2
+CPYM:CC:3
+CPYI:C0:2
+ASLM:0E:3
+ASLA:0A:1
+LSRM:4E:3
+LSRA:4A:1
+ROLM:2E:3
+ROLA:2A:1
+RORM:6E:3
+RORA:6A:1
+JMP:4C:3
+BCC:90:2
+BCS:B0:2
+BEQ:F0:2
+BNE:D0:2
+BMI:30:2
+BPL:10:2
+BVC:50:2
+BVS:70:2
+CLC:18:1
+CLV:B8:1
+SEC:38:1
+JSR:20:3
+RTS:60:1
+
+* Assuming that the 6502 starts reading from 0000 base address
+* Defining subroutines for multiplication, division and modulo operation
+* 6502 has 16bit address space: [0, 65535]
+* Variables start from address _____
+* Compiled code starts from _____
+* Instruction Syntax: Mnemonic Operand/Address
+
+LDX Op1
+LDY Op2
+
+Multiplication Routine:
+
+        LDA #0       ;Initialize RESULT to 0
+        LDX #8       ;There are 8 bits in NUM2
+L1      LSR NUM2     ;Get low bit of NUM2
+        BCC L2       ;0 or 1? BCC is Branch if carry flag is clear [C = 0]
+        CLC          ;If 1, add NUM1
+        ADC NUM1
+L2      ROR A        ;"Stairstep" shift (catching carry from add)
+        ROR RESULT
+        DEX
+        BNE L1       ;Jump to L1 if Accumulator is not zero 
+        STA RESULT+1
+
+16 Bit Addition Subroutine:
+
+1 CLC
+3 LDA $NUM1LowLocation
+3 ADC $NUM2LowLocation
+3 STA $NUM1LowLocation
+3 LDA $NUM1HighLocation
+3 ADC $NUM2HighLocation
+3 STA $NUM1HighLocation
+
+In Hexadecimal
+
+18
+ad $NUM1LowLocation
+6d $NUM2LowLocation
+8d $NUM1LowLocation
+ad $NUM1HighLocation
+6d $NUM2HighLocation
+8d $NUM1HighLocation
+
+16 Bit Subtraction Subroutine:
+
+3 LDA $NUM1LowLocation
+1 SEC
+3 SBC $NUM2LowLocation
+3 STA $NUM1LowLocation
+3 LDA $NUM1HighLocation
+3 SBC $NUM2HighLocation
+3 STA $NUM1HighLocation
+
+16 Bit Multiplication Subroutine using recursive addition:
+
+    2    LDA #0       ;Initialize RESULT to 0
+    3    STA RESULT+2
+    2    LDX #16      ;There are 16 bits in NUM2
+    3    LSR NUM2+1   ;Get low bit of NUM2
+    3    ROR NUM2
+    2    BCC L2       ;0 or 1?
+    1    TAY          ;If 1, add NUM1 (hi byte of RESULT is in A)
+    1    CLC
+    3    LDA NUM1
+    3    ADC RESULT+2
+    3    STA RESULT+2
+    1    TYA
+    3    ADC NUM1+1
+    1    ROR A        ;"Stairstep" shift
+    3    ROR RESULT+2
+    3    ROR RESULT+1
+    3    ROR RESULT
+    1    DEX
+    2    BNE L1
+    3    STA RESULT+3
