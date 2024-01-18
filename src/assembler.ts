@@ -1,10 +1,8 @@
 import { CPU } from "./6502.js";
 import { opCodeLoader } from "./utils/opcodeLoader.js";
 import sourceCodeLoader from "./utils/sourceCodeLoader.js";
-import { printer } from "./utils/printer.js";
-import { writeFile } from "fs/promises";
-import { opCodeToMnemonic } from "./utils/opCodeReference.js";
-import sourceCodeInspector from "./utils/sourceCodeInspector.js";
+
+import { hexToDec } from "./utils/hexToDec.js";
 
 const processor = new CPU(new Array(2 ** 16).fill(-1)); //64KB Memory space
 
@@ -19,7 +17,8 @@ async function runAssembler(processor: CPU) {
     sourceCodeLoader(processor, 'src.asm', codePtr);
 
     // Run till the end of the source code
-    while (processor.RAM[codePtr] + 1 != 0) {
+    // Assembly loop
+    assemblyLoop: while (processor.RAM[codePtr] + 1 != 0) {
         let codeLineStart = codePtr;
         // Each src code line starts with a mnemonic
         // While you haven't reached the end of the mnemonic
@@ -27,10 +26,10 @@ async function runAssembler(processor: CPU) {
         let opCodePtr = memPtrStart;
 
         // Mnemonic loop
-        while (processor.RAM[codePtr] != ' '.charCodeAt(0)) {
+        mnemonicLoop: while (processor.RAM[codePtr] != ' '.charCodeAt(0)) {
             // If all the opcodes are exhausted and the src mnemonic was still not matched, the src mnemonic is invalid/incorrect
             if (processor.RAM[opCodePtr] + 1 == 0) {
-                break; // Skip to the next code line
+                continue assemblyLoop; // Skip to the next code line
             };
 
             // If the mnemonic, at any character doesn't before it's end, the current opcode is the not the one required
@@ -88,13 +87,13 @@ async function runAssembler(processor: CPU) {
         let highByte = 0;
 
         for (let idx = 0; idx < 2; idx++)
-            lowByte += map[str[idx]] * (16 ** idx);
+            lowByte += hexToDec[str[idx]] * (16 ** idx);
 
 
         processor.RAM[compiledPtr] = lowByte;
 
         for (let idx = 2; idx < str.length; idx++)
-            highByte += map[str[idx]] * (16 ** (idx - 2));
+            highByte += hexToDec[str[idx]] * (16 ** (idx - 2));
 
         if (highByte !== 0) {
             processor.RAM[compiledPtr] = highByte;
