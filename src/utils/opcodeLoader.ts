@@ -1,5 +1,5 @@
-import { CPU } from "./6502.js";
-import { printer } from "./utils/printer.js";
+import { CPU } from "../6502.js";
+import { printer } from "./printer.js";
 
 const opCodeMemTableEntries = [
     ['LDAM', 'AD', '2'],
@@ -10,7 +10,7 @@ const opCodeMemTableEntries = [
     ['LDYM', 'AC', '2'],
     ['LDYI', 'A0', '1'],
     ['STA', '8D', '2'],
-    ['STAZPI', '8D', '1'],
+    ['STAZPI', '92', '1'],
     ['STX', '8E', '2'],
     ['STY', '8C', '2'],
     ['ADCM', '6D', '2'],
@@ -37,6 +37,7 @@ const opCodeMemTableEntries = [
     ['ORAI', '09', '1'],
     ['CMPM', 'CD', '2'],
     ['CMPI', 'C9', '1'],
+    ['CMPZPI', 'D2', '1'],
     ['CPXM', 'EC', '2'],
     ['CPXI', 'E0', '1'],
     ['CPYM', 'CC', '2'],

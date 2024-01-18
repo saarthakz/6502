@@ -1,6 +1,6 @@
-import { CPU } from "./6502.js";
+import { CPU } from "../6502.js";
 import fs from "node:fs";
-import { printer } from "./utils/printer.js";
+import { printer } from "./printer.js";
 
 export default function sourceCodeLoader(processor: CPU, path: string, srcCodePtr: number) {
     let srcCodeLines = fs.readFileSync(path, {

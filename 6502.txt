@@ -213,6 +213,8 @@ L2      ROR A        ;"Stairstep" shift (catching carry from add)
         BNE L1       ;Jump to L1 if Accumulator is not zero 
         STA RESULT+1
 
+-- -- -- -- -- --
+
 16 Bit Addition Subroutine:
 
 1 CLC
@@ -233,15 +235,29 @@ ad $NUM1HighLocation
 6d $NUM2HighLocation
 8d $NUM1HighLocation
 
+-- -- -- -- -- --
+
 16 Bit Subtraction Subroutine:
 
 3 LDA $NUM1LowLocation
-1 SEC
+1 SEC  
 3 SBC $NUM2LowLocation
 3 STA $NUM1LowLocation
 3 LDA $NUM1HighLocation
 3 SBC $NUM2HighLocation
 3 STA $NUM1HighLocation
+
+In Hexadecimal
+
+ad $NUM1LowLocation
+38  
+ed $NUM2LowLocation
+8d $NUM1LowLocation
+ad $NUM1HighLocation
+ed $NUM2HighLocation
+8d $NUM1HighLocation
+
+-- -- -- -- -- --
 
 16 Bit Multiplication Subroutine using recursive addition:
 
